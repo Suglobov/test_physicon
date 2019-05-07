@@ -117,6 +117,23 @@ const listenControll = () => {
     listener('grades', true);
 };
 
+const listenSearch = () => {
+    const hiddenClass = `itemSizeReduction-search`;
+    state.search.addEventListener('input', ({target}) => {
+        state.items.forEach(el => {
+            if (target.value === '') {
+                el.classList.remove(hiddenClass);
+            } else {
+                if (el.dataset.title.toLocaleLowerCase().includes(target.value.toLocaleLowerCase())) {
+                    el.classList.remove(hiddenClass);
+                } else {
+                    el.classList.add(hiddenClass);
+                }
+            }
+        });
+    });
+};
+
 Promise.all(
     [
         loadAndFind(),
@@ -132,6 +149,7 @@ Promise.all(
     .then((json) => writeItem(json.items))
     .then(() => fillingControll())
     .then(() => listenControll())
+    .then(() => listenSearch())
     .catch(e => console.log('error:', e));
 
 
