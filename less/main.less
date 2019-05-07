@@ -1,12 +1,18 @@
 body {
-  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
 .sci-hidden {
   display: none;
 }
 
+.controls {
+  padding: 0 15px;
+}
+
 .itemsContainer {
+  margin: 60px 0 20px;
+
   &.showPrice {
     .sci-price {
       display: inline-block;
@@ -32,11 +38,12 @@ body {
   color: #3c3c3b;
   font-size: 14px;
   line-height: 22px;
+  transition: width 0.3s, border 0.3s, margin 0.3s, padding 0.3s;
 
   .sci-figure {
     overflow: hidden;
     height: 134px;
-    background: #ddd;
+    background: #dddddd;
   }
 
   .sci-info {
@@ -78,14 +85,13 @@ body {
     }
 
     .sci-controls {
-      margin-top: 0.4em;
+      margin-top: .4em;
 
       a.sci-button {
         font-size: 12px;
-        color: #fff;
+        color: #ffffff;
         display: block;
         background: #00c1ff;
-
         padding: .4em .1em;
         border-radius: 6px;
         zoom: 1;
@@ -109,9 +115,18 @@ body {
         }
 
         &:active {
-          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 0 6px rgba(0, 0, 0, 0.2) inset;
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, .15) inset, 0 0 6px rgba(0, 0, 0, .2) inset;
         }
       }
     }
   }
+}
+
+.itemSizeReduction-subjects,
+.itemSizeReduction-genres,
+.itemSizeReduction-grades {
+  width: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
 }
