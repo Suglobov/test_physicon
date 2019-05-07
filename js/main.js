@@ -1,4 +1,5 @@
-const compareNumbers = (a, b) => a - b;
+const compareNumbers = (a, b) => a - b; // для сортировки чисел
+// классы указаны через ;, надо выводить как x-y классы или x класс
 const gradeText = (grade) => {
     const gradeArr = grade.split(';');
     if (gradeArr.length === 1) {
@@ -7,14 +8,11 @@ const gradeText = (grade) => {
     return `${gradeArr[0]}-${gradeArr[gradeArr.length - 1]} классы`;
 };
 
-const state = {
-    subjects: [],
-    genres: [],
-    grades: [],
-};
-
+const state = {}; // сюда сохранятся всякие объекты
+// ждем загрузки страницы
 const windowsLoad = () => new Promise((resolve) =>
     window.addEventListener('load', () => resolve('load')));
+// находим нужные элементы на странице
 const findDomElems = () => new Promise((resolve, reject) => {
     state.itemsContainer = document.querySelector('.itemsContainer');
     state.subjectsControl = document.querySelector('.controls .subjects');
@@ -30,16 +28,17 @@ const findDomElems = () => new Promise((resolve, reject) => {
     if (!state.priceBonus) reject('priceBonus не найден');
     resolve();
 });
+// загрузка страницы и поиск элементов
 const loadAndFind = async () => {
     const load = await windowsLoad();
     const find = await findDomElems();
     return Promise.resolve('load and find');
 };
-
+// размещаем эелементы на странице
 const writeItem = (itemsArr) => {
     if (!itemsArr || !itemsArr.length) return;
-    const itemsContainer = state.itemsContainer;
-    const tmp = {
+    const itemsContainer = state.itemsContainer; // контейнер для эелементов
+    const tmp = { // данные для селектов без повторений значений
         subjects: new Set(),
         genres: new Set(),
         grades: new Set(),
@@ -79,7 +78,7 @@ const writeItem = (itemsArr) => {
     state.items = items;
     items.forEach(el => itemsContainer.appendChild(el));
 };
-
+// заполняем селекты значениями для фильтрации
 const fillingControll = () => {
     const addOptions = (element) => {
         state[element].forEach(el => {
@@ -92,7 +91,7 @@ const fillingControll = () => {
     addOptions('genres');
     addOptions('grades');
 };
-
+// вешаем слушателей на изменения в селекте
 const listenControll = () => {
     const listener = (element, multiVal = false) => {
         const hiddenClass = `itemSizeReduction-${element}`;
@@ -116,7 +115,7 @@ const listenControll = () => {
     listener('genres');
     listener('grades', true);
 };
-
+// слушатель для поисковой строки
 const listenSearch = () => {
     const hiddenClass = `itemSizeReduction-search`;
     state.search.addEventListener('input', ({target}) => {
@@ -133,7 +132,7 @@ const listenSearch = () => {
         });
     });
 };
-
+// параллельно делаем фетч и ждем загрузки страницы
 Promise.all(
     [
         loadAndFind(),

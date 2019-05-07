@@ -8,6 +8,25 @@ body {
 
 .controls {
   padding: 0 15px;
+
+  .priceBonusLablel {
+    .priceBonusInput {
+      display: none;
+    }
+
+    .priceBonus-price,
+    .priceBonus-bonus {
+      display: none;
+    }
+
+    .priceBonusInput ~ .priceBonus-price {
+      display: block;
+    }
+
+    .priceBonusInput:checked ~ .priceBonus-bonus {
+      display: block;
+    }
+  }
 }
 
 .itemsContainer {
