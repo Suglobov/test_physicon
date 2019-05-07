@@ -1,0 +1,117 @@
+body {
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+.sci-hidden {
+  display: none;
+}
+
+.itemsContainer {
+  &.showPrice {
+    .sci-price {
+      display: inline-block;
+    }
+  }
+
+  &.showBonus {
+    .sci-bonus {
+      display: inline-block;
+    }
+  }
+}
+
+.courses-sci {
+  box-sizing: border-box;
+  background: #ffffff;
+  overflow: hidden;
+  margin: 0 15px 55px;
+  width: 170px;
+  height: 278px;
+  border: solid 1px #b5b5b5;
+  border-radius: 10px;
+  color: #3c3c3b;
+  font-size: 14px;
+  line-height: 22px;
+
+  .sci-figure {
+    overflow: hidden;
+    height: 134px;
+    background: #ddd;
+  }
+
+  .sci-info {
+    padding: 10px 16px;
+
+    .sci-title,
+    .sci-grade,
+    .sci-genre,
+    .sci-meta {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding-left: .5em;
+      margin: .4em 0;
+      font-weight: normal;
+
+      a {
+        color: #00c1ff;
+        font-size: 12px;
+        font-weight: 600;
+      }
+    }
+
+    .sci-title {
+      margin: 0;
+    }
+
+    .sci-grade {
+      margin-top: -.2em;
+    }
+
+    .sci-genre {
+      margin-top: -.4em;
+      font-size: 11px;
+    }
+
+    .sci-meta {
+      margin-bottom: 0;
+    }
+
+    .sci-controls {
+      margin-top: 0.4em;
+
+      a.sci-button {
+        font-size: 12px;
+        color: #fff;
+        display: block;
+        background: #00c1ff;
+
+        padding: .4em .1em;
+        border-radius: 6px;
+        zoom: 1;
+        line-height: normal;
+        white-space: nowrap;
+        vertical-align: middle;
+        text-align: center;
+        cursor: pointer;
+        -webkit-user-drag: none;
+        user-select: none;
+        box-sizing: border-box;
+
+        &:hover {
+          outline: 0;
+          text-decoration: none;
+          background: #00aee6;
+        }
+
+        &:focus {
+          outline: 0;
+        }
+
+        &:active {
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 0 6px rgba(0, 0, 0, 0.2) inset;
+        }
+      }
+    }
+  }
+}

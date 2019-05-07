@@ -15,7 +15,10 @@ var
     babel = require('gulp-babel');
 
 gulp.task('browser-sync', function () {
-    browserSync({server: true}, function (err, bs) {
+    browserSync({
+        server: true,
+        https: true
+    }, function (err, bs) {
         // console.log(bs.options.urls.local);
     });
 });
