@@ -3,15 +3,12 @@ var
     p = require('gulp-load-plugins')(),
     browserSync = require('browser-sync'),
     less = require('gulp-less'),
-    watch = require('gulp-watch'),
     autoprefixer = require('gulp-autoprefixer'),
+    watch = require('gulp-watch'),
     sourcemaps = require('gulp-sourcemaps'),
-    spritesmith = require('gulp.spritesmith'),
-    imagemin = require('gulp-imagemin'),
     plumber = require('gulp-plumber'),
     csso = require('gulp-csso'),
     rename = require('gulp-rename'),
-    // spritesmith = require('gulp.spritesmith-multi');
     babel = require('gulp-babel');
 
 gulp.task('browser-sync', function () {
@@ -27,7 +24,6 @@ gulp.task('less', function () {
     return gulp.src('./less/*.less')
         .pipe(plumber())
         .pipe(sourcemaps.init())
-        // .pipe(concat('main.less'))
         .pipe(less())
         // .pipe(p.cleanCss())
         .pipe(autoprefixer())

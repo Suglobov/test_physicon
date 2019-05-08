@@ -14,17 +14,30 @@ body {
       display: none;
     }
 
-    .priceBonus-price,
+    .priceBonusBlock {
+      display: inline-block;
+      background: #00c1ff;
+      width: 100px;
+      text-align: center;
+      border-radius: 6px;
+    }
+
+    .priceBonus-price {
+      display: inline-block;
+      color: white;
+    }
+
     .priceBonus-bonus {
-      display: none;
+      //display: none;
+      color: yellow;
     }
 
-    .priceBonusInput ~ .priceBonus-price {
-      display: block;
+    .priceBonusInput:checked ~ .priceBonusBlock .priceBonus-price {
+      //display: none;
     }
 
-    .priceBonusInput:checked ~ .priceBonus-bonus {
-      display: block;
+    .priceBonusInput:checked ~ .priceBonusBlock .priceBonus-bonus {
+      display: inline-block;
     }
   }
 }
@@ -63,6 +76,8 @@ body {
     overflow: hidden;
     height: 134px;
     background: #dddddd;
+    display: flex;
+    align-items: center;
   }
 
   .sci-info {

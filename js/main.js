@@ -1,3 +1,34 @@
+const sl = { // селекторы
+    dom: { // элементы, которые надо найти на странице
+        itemsContainer: '.itemsContainer',
+        subjectsControl: '.controls .subjects',
+        genresControl: '.controls .genres',
+        gradesControl: '.controls .grades',
+        search: '.controls .search',
+        priceBonus: '.controls .priceBonusInput',
+        preloader: '.preloader',
+    },
+};
+const templates = { // шаблоны
+    item: (el) => [
+        `<div class="sci-figure">`,
+        `<img src="https://www.imumk.ru/svc/coursecover/${el.courseId}" alt="${el.genre}">`, `</div>`,
+        `<div class="sci-info">`,
+        `<div class="sci-title">${el.subject}</div>`,
+        `<div class="sci-grade">${gradeText(el.grade)}</div>`,
+        `<div class="sci-genre">${el.genre}</div>`,
+        `<div class="sci-meta"><a href="${el.shopUrl}">Подробнее</a></div>`,
+        `<div class="sci-controls">`,
+        `<a href="${el.shopUrl}" class="sci-button">`,
+        `<span class="sci-price sci-hidden">${el.price}</span>`,
+        `<span class="sci-bonus sci-hidden">${el.priceBonus}</span>`,
+        `</a>`, `</div>`, `</div>`,
+    ].join(''),
+};
+// сюда сохранятся всякие объекты
+const state = {
+    dom: {}, // элементы, которые надо найти на странице
+};
 const compareNumbers = (a, b) => a - b; // для сортировки чисел
 // классы указаны через ;, надо выводить как x-y классы или x класс
 const gradeText = (grade) => {
@@ -8,24 +39,15 @@ const gradeText = (grade) => {
     return `${gradeArr[0]}-${gradeArr[gradeArr.length - 1]} классы`;
 };
 
-const state = {}; // сюда сохранятся всякие объекты
 // ждем загрузки страницы
 const windowsLoad = () => new Promise((resolve) =>
     window.addEventListener('load', () => resolve('load')));
 // находим нужные элементы на странице
 const findDomElems = () => new Promise((resolve, reject) => {
-    state.itemsContainer = document.querySelector('.itemsContainer');
-    state.subjectsControl = document.querySelector('.controls .subjects');
-    state.genresControl = document.querySelector('.controls .genres');
-    state.gradesControl = document.querySelector('.controls .grades');
-    state.search = document.querySelector('.controls .search');
-    state.priceBonus = document.querySelector('.controls .priceBonusInput');
-    if (!state.itemsContainer) reject('itemsContainer не найден');
-    if (!state.subjectsControl) reject('controlSubjects не найден');
-    if (!state.genresControl) reject('controlGenres не найден');
-    if (!state.gradesControl) reject('controlGenres не найден');
-    if (!state.search) reject('search не найден');
-    if (!state.priceBonus) reject('priceBonus не найден');
+    Object.keys(sl.dom).forEach(el => {
+        state.dom[el] = document.querySelector(sl.dom[el]);
+        if (!state.dom[el]) reject(`${el} не найден`);
+    });
     resolve();
 });
 // загрузка страницы и поиск элементов
@@ -37,7 +59,8 @@ const loadAndFind = async () => {
 // размещаем эелементы на странице
 const writeItem = (itemsArr) => {
     if (!itemsArr || !itemsArr.length) return;
-    const itemsContainer = state.itemsContainer; // контейнер для эелементов
+    state.dom.preloader.classList.add('uk-hidden'); // прячем прелоадер
+    const itemsContainer = state.dom.itemsContainer; // контейнер для эелементов
     const tmp = { // данные для селектов без повторений значений
         subjects: new Set(),
         genres: new Set(),
@@ -56,20 +79,7 @@ const writeItem = (itemsArr) => {
         wrap.dataset.genres = el.genre;
         wrap.dataset.grades = el.grade;
         wrap.dataset.title = el.title;
-        wrap.insertAdjacentHTML('afterBegin', [
-            `<div class="sci-figure">`,
-            `<img src="https://www.imumk.ru/svc/coursecover/${el.courseId}" alt="${el.genre}">`, `</div>`,
-            `<div class="sci-info">`,
-            `<div class="sci-title">${el.subject}</div>`,
-            `<div class="sci-grade">${gradeText(el.grade)}</div>`,
-            `<div class="sci-genre">${el.genre}</div>`,
-            `<div class="sci-meta"><a href="${el.shopUrl}">Подробнее</a></div>`,
-            `<div class="sci-controls">`,
-            `<a href="${el.shopUrl}" class="sci-button">`,
-            `<span class="sci-price sci-hidden">${el.price}</span>`,
-            `<span class="sci-bonus sci-hidden">${el.priceBonus}</span>`,
-            `</a>`, `</div>`, `</div>`,
-        ].join(''));
+        wrap.insertAdjacentHTML('afterBegin', templates.item(el));
         return wrap;
     });
     state.subjects = [...tmp.subjects].sort();
@@ -84,7 +94,7 @@ const fillingControll = () => {
         state[element].forEach(el => {
             const option = document.createElement('option');
             option.text = el;
-            state[`${element}Control`].appendChild(option);
+            state.dom[`${element}Control`].appendChild(option);
         })
     };
     addOptions('subjects');
@@ -95,7 +105,7 @@ const fillingControll = () => {
 const listenControll = () => {
     const listener = (element, multiVal = false) => {
         const hiddenClass = `itemSizeReduction-${element}`;
-        state[`${element}Control`].addEventListener('change', ({target}) => {
+        state.dom[`${element}Control`].addEventListener('change', ({target}) => {
             state.items.forEach(el => {
                 if (target.selectedIndex === 0) {
                     el.classList.remove(hiddenClass);
@@ -118,7 +128,7 @@ const listenControll = () => {
 // слушатель для поисковой строки
 const listenSearch = () => {
     const hiddenClass = `itemSizeReduction-search`;
-    state.search.addEventListener('input', ({target}) => {
+    state.dom.search.addEventListener('input', ({target}) => {
         state.items.forEach(el => {
             if (target.value === '') {
                 el.classList.remove(hiddenClass);
