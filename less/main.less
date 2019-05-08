@@ -14,30 +14,70 @@ body {
       display: none;
     }
 
-    .priceBonusBlock {
+    .priceBonusButton {
+      line-height: 30px;
+
+      position: relative;
+
       display: inline-block;
-      background: #00c1ff;
-      width: 100px;
-      text-align: center;
-      border-radius: 6px;
+      overflow: hidden;
+
+      width: 90px;
+      height: 30px;
+
+      text-align: left;
+      white-space: nowrap;
+
+      border-radius: 100px;
+      background-color: #00c1ff;
     }
 
-    .priceBonus-price {
+    .priceBonus-price,
+    .priceBonus-bonus {
+      vertical-align: middle;
+      position: absolute;
+      top: 0;
+
       display: inline-block;
+
+      width: 60px;
+
+      transition: left .3s;
+      text-align: center;
+
       color: white;
     }
 
+    .priceBonus-price {
+      left: 0;
+
+      &:after {
+        position: absolute;
+        top: 0;
+        right: -30px;
+        //border: solid 1px #b5b5b5;
+
+        box-sizing: border-box;
+        width: 30px;
+        height: 100%;
+
+        content: '';
+
+        border-radius: 100px;
+        background-color: #2196f3;
+      }
+    }
+
     .priceBonus-bonus {
-      //display: none;
-      color: yellow;
+      left: 90px;
     }
 
-    .priceBonusInput:checked ~ .priceBonusBlock .priceBonus-price {
-      //display: none;
+    .priceBonusInput:checked ~ .priceBonusButton .priceBonus-price {
+      left: -60px;
     }
 
-    .priceBonusInput:checked ~ .priceBonusBlock .priceBonus-bonus {
-      display: inline-block;
+    .priceBonusInput:checked ~ .priceBonusButton .priceBonus-bonus {
+      left: 30px;
     }
   }
 }
@@ -45,39 +85,54 @@ body {
 .itemsContainer {
   margin: 60px 0 20px;
 
+  .sci-price,
+  .sci-bonus {
+    max-width: 0;
+    display: inline-block;
+    overflow: hidden;
+    transition: max-width .3s;
+    vertical-align: middle;
+  }
+
   &.showPrice {
     .sci-price {
-      display: inline-block;
+      max-width: 100px;
     }
   }
 
   &.showBonus {
     .sci-bonus {
-      display: inline-block;
+      max-width: 100px;
     }
   }
 }
 
 .courses-sci {
-  box-sizing: border-box;
-  background: #ffffff;
-  overflow: hidden;
-  margin: 0 15px 55px;
-  width: 170px;
-  height: 278px;
-  border: solid 1px #b5b5b5;
-  border-radius: 10px;
-  color: #3c3c3b;
   font-size: 14px;
   line-height: 22px;
-  transition: width 0.3s, border 0.3s, margin 0.3s, padding 0.3s;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+  width: 170px;
+  height: 278px;
+  margin: 0 15px 55px;
+
+  transition: width .3s, border .3s, margin .3s, padding .3s;
+
+  color: #3c3c3b;
+  border: solid 1px #b5b5b5;
+  border-radius: 10px;
+  background: #fff;
 
   .sci-figure {
-    overflow: hidden;
-    height: 134px;
-    background: #dddddd;
     display: flex;
+    overflow: hidden;
     align-items: center;
+
+    height: 134px;
+
+    background: #ddd;
   }
 
   .sci-info {
@@ -87,17 +142,21 @@ body {
     .sci-grade,
     .sci-genre,
     .sci-meta {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      padding-left: .5em;
-      margin: .4em 0;
       font-weight: normal;
 
+      overflow: hidden;
+
+      margin: .4em 0;
+      padding-left: .5em;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
       a {
-        color: #00c1ff;
         font-size: 12px;
         font-weight: 600;
+
+        color: #00c1ff;
       }
     }
 
@@ -110,8 +169,9 @@ body {
     }
 
     .sci-genre {
-      margin-top: -.4em;
       font-size: 11px;
+
+      margin-top: -.4em;
     }
 
     .sci-meta {
@@ -123,24 +183,30 @@ body {
 
       a.sci-button {
         font-size: 12px;
-        color: #ffffff;
-        display: block;
-        background: #00c1ff;
-        padding: .4em .1em;
-        border-radius: 6px;
-        zoom: 1;
         line-height: normal;
-        white-space: nowrap;
-        vertical-align: middle;
-        text-align: center;
-        cursor: pointer;
-        -webkit-user-drag: none;
-        user-select: none;
+
+        display: block;
+        zoom: 1;
+
         box-sizing: border-box;
+        padding: .4em .1em;
+
+        cursor: pointer;
+        user-select: none;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+
+        color: #fff;
+        border-radius: 6px;
+        background: #00c1ff;
+
+        -webkit-user-drag: none;
 
         &:hover {
-          outline: 0;
           text-decoration: none;
+
+          outline: 0;
           background: #00aee6;
         }
 
@@ -161,7 +227,8 @@ body {
 .itemSizeReduction-grades,
 .itemSizeReduction-search {
   width: 0;
-  border: 0;
-  padding: 0;
   margin: 0;
+  padding: 0;
+
+  border: 0;
 }

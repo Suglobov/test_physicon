@@ -8,6 +8,12 @@ const sl = { // селекторы
         priceBonus: '.controls .priceBonusInput',
         preloader: '.preloader',
     },
+    cl: { // классы
+        showPrice: 'showPrice',
+        showBonus: 'showBonus',
+        hiddenFilter1part: 'itemSizeReduction-',
+        hiddenUikit: 'uk-hidden',
+    }
 };
 const templates = { // шаблоны
     item: (el) => [
@@ -20,8 +26,8 @@ const templates = { // шаблоны
         `<div class="sci-meta"><a href="${el.shopUrl}">Подробнее</a></div>`,
         `<div class="sci-controls">`,
         `<a href="${el.shopUrl}" class="sci-button">`,
-        `<span class="sci-price sci-hidden">${el.price}</span>`,
-        `<span class="sci-bonus sci-hidden">${el.priceBonus}</span>`,
+        `<span class="sci-price">${el.price} р</span>`,
+        `<span class="sci-bonus">${el.priceBonus} б</span>`,
         `</a>`, `</div>`, `</div>`,
     ].join(''),
 };
@@ -29,6 +35,10 @@ const templates = { // шаблоны
 const state = {
     dom: {}, // элементы, которые надо найти на странице
 };
+// const declOfNum = (number, titles) => { // функция для опреледения окончания числительных
+//     const cases = [2, 0, 1, 1, 1, 2];
+//     return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
+// };
 const compareNumbers = (a, b) => a - b; // для сортировки чисел
 // классы указаны через ;, надо выводить как x-y классы или x класс
 const gradeText = (grade) => {
@@ -59,7 +69,7 @@ const loadAndFind = async () => {
 // размещаем эелементы на странице
 const writeItem = (itemsArr) => {
     if (!itemsArr || !itemsArr.length) return;
-    state.dom.preloader.classList.add('uk-hidden'); // прячем прелоадер
+    state.dom.preloader.classList.add(sl.cl.hiddenUikit); // прячем прелоадер
     const itemsContainer = state.dom.itemsContainer; // контейнер для эелементов
     const tmp = { // данные для селектов без повторений значений
         subjects: new Set(),
@@ -104,7 +114,7 @@ const fillingControll = () => {
 // вешаем слушателей на изменения в селекте
 const listenControll = () => {
     const listener = (element, multiVal = false) => {
-        const hiddenClass = `itemSizeReduction-${element}`;
+        const hiddenClass = `${sl.cl.hiddenFilter1part}${element}`;
         state.dom[`${element}Control`].addEventListener('change', ({target}) => {
             state.items.forEach(el => {
                 if (target.selectedIndex === 0) {
@@ -127,7 +137,7 @@ const listenControll = () => {
 };
 // слушатель для поисковой строки
 const listenSearch = () => {
-    const hiddenClass = `itemSizeReduction-search`;
+    const hiddenClass = `${sl.cl.hiddenFilter1part}search`;
     state.dom.search.addEventListener('input', ({target}) => {
         state.items.forEach(el => {
             if (target.value === '') {
@@ -140,6 +150,22 @@ const listenSearch = () => {
                 }
             }
         });
+    });
+};
+// слушатель для переключалки цены и бонусов
+const listenCheckbox = () => {
+    const change = (rele) => {
+        if (rele) {
+            state.dom.itemsContainer.classList.remove(sl.cl.showPrice);
+            state.dom.itemsContainer.classList.add(sl.cl.showBonus);
+        } else {
+            state.dom.itemsContainer.classList.add(sl.cl.showPrice);
+            state.dom.itemsContainer.classList.remove(sl.cl.showBonus);
+        }
+    };
+    change(state.dom.priceBonus.checked);
+    state.dom.priceBonus.addEventListener('change', ({target}) => {
+        change(target.checked);
     });
 };
 // параллельно делаем фетч и ждем загрузки страницы
@@ -159,6 +185,7 @@ Promise.all(
     .then(() => fillingControll())
     .then(() => listenControll())
     .then(() => listenSearch())
+    .then(() => listenCheckbox())
     .catch(e => console.log('error:', e));
 
 
