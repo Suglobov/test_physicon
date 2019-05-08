@@ -34,7 +34,6 @@ body {
 
     .priceBonus-price,
     .priceBonus-bonus {
-      vertical-align: middle;
       position: absolute;
       top: 0;
 
@@ -44,6 +43,7 @@ body {
 
       transition: left .3s;
       text-align: center;
+      vertical-align: middle;
 
       color: white;
     }
@@ -87,9 +87,11 @@ body {
 
   .sci-price,
   .sci-bonus {
-    max-width: 0;
     display: inline-block;
     overflow: hidden;
+
+    max-width: 0;
+
     transition: max-width .3s;
     vertical-align: middle;
   }
